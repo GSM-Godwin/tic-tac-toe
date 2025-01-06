@@ -5,23 +5,20 @@ class TicTacToe:
     class CellValue(Enum):
         X = "X"
         O = "O"
-        EMPTY = " "  # Represents an empty cell
+        EMPTY = " "
 
     def __init__(self):
-        # Initialize the 3x3 board with EMPTY cells
         self.board = [[self.CellValue.EMPTY for _ in range(3)] for _ in range(3)]
-        self.current_player = self.CellValue.X  # Default starting player
+        self.current_player = self.CellValue.X
         self.play_with_computer = False
         self.computer_starts = False
 
     def display_board(self):
-        # Display the current state of the board
         for row in self.board:
             print(" | ".join(cell.value for cell in row))
-            print("-" * 9)  # Separator between rows
+            print("-" * 9)
 
     def make_move(self, row, col):
-        # Validate and make a move on the board
         if self.board[row][col] != self.CellValue.EMPTY:
             print("Cell is already occupied. Try again.")
             return False
@@ -29,7 +26,6 @@ class TicTacToe:
         return True
 
     def computer_move(self):
-        # Simple AI to make a move in the first available cell
         for row in range(3):
             for col in range(3):
                 if self.board[row][col] == self.CellValue.EMPTY:
@@ -37,20 +33,16 @@ class TicTacToe:
                     return
 
     def check_winner(self):
-        # Check rows, columns, and diagonals for a winner
-        # Check rows
         for row in self.board:
             if row[0] == row[1] == row[2] != self.CellValue.EMPTY:
                 return row[0]
 
-        # Check columns
         for col in range(3):
             if (
                 self.board[0][col] == self.board[1][col] == self.board[2][col] != self.CellValue.EMPTY
             ):
                 return self.board[0][col]
 
-        # Check diagonals
         if (
             self.board[0][0] == self.board[1][1] == self.board[2][2] != self.CellValue.EMPTY
             or self.board[0][2] == self.board[1][1] == self.board[2][0] != self.CellValue.EMPTY
@@ -60,15 +52,12 @@ class TicTacToe:
         return None
 
     def is_draw(self):
-        # Check if the game is a draw (no empty cells left)
         return all(cell != self.CellValue.EMPTY for row in self.board for cell in row)
 
     def switch_player(self):
-        # Switch turns between players
         self.current_player = self.CellValue.O if self.current_player == self.CellValue.X else self.CellValue.X
 
     def play_game(self):
-        # Choose game mode
         print("Welcome to Tic-Tac-Toe!")
         print("Choose game mode:")
         print("1. Play against computer")
@@ -127,7 +116,6 @@ class TicTacToe:
                 except ValueError:
                     print("Invalid input. Please enter a number.")
 
-        # Main game loop
         self.display_board()
 
         while True:
@@ -146,7 +134,6 @@ class TicTacToe:
                         print("Invalid input. Please enter row and column as numbers between 0 and 2.")
                         continue
 
-                    # Make the move
                     if not self.make_move(row, col):
                         continue
 
@@ -156,18 +143,15 @@ class TicTacToe:
 
             self.display_board()
 
-            # Check for a winner
             winner = self.check_winner()
             if winner:
                 print(f"{winner.value} wins!")
                 break
 
-            # Check for a draw
             if self.is_draw():
                 print("It's a draw!")
                 break
 
-            # Switch to the other player
             self.switch_player()
 
 if __name__ == "__main__":
